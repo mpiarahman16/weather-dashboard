@@ -39,6 +39,10 @@ html {
   margin-top: 50px;
 }
 
+.section-results .row .col.m2 {
+  width: 20% !important;
+}
+
 .weather-info {
   margin-top: 2rem;
 }
