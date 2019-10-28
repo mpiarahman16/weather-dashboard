@@ -5,8 +5,9 @@
   <!--Import Google Icon Font-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
-  <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
-  <link type="text/css" rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+  <link rel="stylesheet" href="css/main.css" />
   <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -70,10 +71,10 @@
         <img src="./img/resort-01.jpg" alt="A Resort Image">
         <div class="caption left-align">
           <h2>Take Your Dream Vacation</h2>
-          <!-- <h5 class="light grey-text text-lighten-3 hide-on-small-only">
+          <h5 class="light grey-text text-lighten-3 hide-on-small-only">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, qui.
-          </h5> -->
-          <a href="#!" class="btn btn-large">Search</a>
+          </h5>
+          <!-- <a href="#!" class="btn btn-large">Search</a> -->
         </div>
       </li>
       <li>
@@ -83,7 +84,7 @@
           <h5 class="light text-lighten-1 hide-on-small-only">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, qui.
           </h5>
-          <a href="#!" class="btn btn-large">Search</a>
+          <!-- <a href="#!" class="btn btn-large">Search</a> -->
         </div>
       </li>
       <li>
@@ -93,10 +94,30 @@
           <h5 class="light text-lighten-3 hide-on-small-only">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, qui.
           </h5>
-          <a href="#!" class="btn btn-large">Search</a>
+          <!-- <a href="#!" class="btn btn-large">Search</a> -->
         </div>
       </li>
     </ul>
+  </section>
+
+  <!-- Section Search -->
+  <section class="section-search darken-2 white-text center-align">
+    <div class="container">
+      <div class="row">
+      <div class="col s12">
+        <!-- <h3>Search Destinations</h3> -->
+        <div class="input-field">
+          <div class="col offset-s1 s8">
+            <input type="text" name="" id="autocomplete-input" class="white grey-text autocomplete"
+              placeholder="Aruba, Cancun, Cuba...">
+          </div>
+          <div class="col s2">
+            <button type="submit" class="btn btn-large">Search</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
   </section>
 
   <!--Import jQuery before materialize.js-->
@@ -104,13 +125,29 @@
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script>
     $(document).ready(function () {
+      
       $('.button-collapse').sideNav();
+      
       $('.slider').slider({
         indicators: false,
-        height: 500,
+        height: 480,
         transition: 500,
         interval: 6000
+      });
+
+      $('.autocomplete').autocomplete({
+        data: {
+          "Aruba": null,
+          "Cancun": null,
+          "Hawaii": null,
+          "Florida": null,
+          "California": null,
+          "Jamaica": null,
+          "Europe": null,
+          "The Bahamas": null
+        }
       })
+
     });
   </script>
 </body>
