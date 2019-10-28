@@ -112,7 +112,7 @@
               placeholder="Aruba, Cancun, Cuba...">
           </div>
           <div class="col s2">
-            <button type="submit" class="btn btn-large">Search</button>
+            <button type="submit" class="btn btn-large search">Search</button>
           </div>
         </div>
       </div>
@@ -148,36 +148,15 @@
     </div>
   </section>
 
+  <!-- Section: Resilts Displat -->
+  <section class="section section-results grey lighten-4">
+  </section>
+
+
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      
-      $('.button-collapse').sideNav();
-      
-      $('.slider').slider({
-        indicators: false,
-        height: 480,
-        transition: 500,
-        interval: 6000
-      });
-
-      $('.autocomplete').autocomplete({
-        data: {
-          "Aruba": null,
-          "Cancun": null,
-          "Hawaii": null,
-          "Florida": null,
-          "California": null,
-          "Jamaica": null,
-          "Europe": null,
-          "The Bahamas": null
-        }
-      })
-
-    });
-  </script>
+  <script src="./js/app.js"></script>
 </body>
 
 </html>

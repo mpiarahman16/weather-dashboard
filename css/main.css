@@ -38,3 +38,16 @@ html {
 .section-icons .card-panel {
   margin-top: 50px;
 }
+
+.weather-info {
+  margin-top: 2rem;
+}
+
+.weather-icon {
+  width: 85% !important;
+}
+
+.temp {
+  font-size: 2rem;
+  font-weight: 600;
+}
