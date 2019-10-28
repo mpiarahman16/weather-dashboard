@@ -28,3 +28,13 @@ html {
 .section-search .input-field .col {
   padding: 0;
 }
+
+.autocomplete-content {
+  position: absolute;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.section-icons .card-panel {
+  margin-top: 50px;
+}
