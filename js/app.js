@@ -1,22 +1,9 @@
-// Example State
-state = {
-  city: "",
-  images: [],
-  icon: "",
-  date: new Date(),
-  temperature: 0,
-  humidity: 0,
-  windSpeed: 0,
-  uvIndex: 0,
-  searchHistory: [
-    "Atlanta"
-  ]
-};
 
-const fetchState = () => {
+const fetchInfo = (city) => {
+  const state = {};
+  state.city = city;
   // Get latitude and longitude using GeonamesAPI
   const geoURL = "http://api.geonames.org/searchJSON?q=";
-  const city = state.city;
   const geoApiKey = "stamay";
 
   const locationEndPoint = geoURL + city + "&username=" + geoApiKey;
@@ -28,7 +15,6 @@ const fetchState = () => {
     url: locationEndPoint,
     method: "GET"
   }).then(function (response) {
-    // console.log(response);
     response = response.geonames[0];
     state.latitude = response.lat;
     state.longitude = response.lng;
@@ -51,35 +37,40 @@ const fetchState = () => {
       state.windSpeed = forecast[0].windSpeed;
       state.uvIndex = forecast[0].uvIndex;
 
-      state.forecast = forecast.slice(1, 6);
+      state.forecast = forecast.slice(1, 7);
+    }).then(function () {
+      // Get city images
+      const pixaUrl = "https://pixabay.com/api/?key=";
+      const pixaApiKey = "13922659-0b80b0f115dd3a353e0647b73";
+      const pixaEndPoint = pixaUrl + pixaApiKey + "&q=" + state.city + "&image_type=photo";
+
+      $.ajax({
+        url: pixaEndPoint,
+        method: "GET"
+      }).then(function (response) {
+        state.images = response.hits.slice(0, 3);
+      }).then(function () {
+        displayWeatherInfo(state);
+        displayWeatherForecast(state);
+      })
+
     });
 
-    console.log(state);
   });
 
-  // Get city images
-  const pixaUrl = "https://pixabay.com/api/?key=";
-  const pixaApiKey = "13922659-0b80b0f115dd3a353e0647b73";
-  const pixaEndPoint = pixaUrl + pixaApiKey + "&q=" + state.city + "&image_type=photo";
-
-  $.ajax({
-    url: pixaEndPoint,
-    method: "GET"
-  }).then(function (response) {
-    state.images = response.hits.slice(0, 3);
-  });
+  return true;
 }
 
-const displayWeatherInfo = () => {
+const displayWeatherInfo = (state) => {
+  console.log("2nd");
   const row = $("<div>");
   row.addClass("row");
-  console.log(row);
   row.html(
   `
   <div class="col s12 m12 l8">
     <div class="card">
     <div class="card-image">
-      <img src=${state.image}>
+      <img src=${state.images[0].webformatURL}>
       </div>
       <div class="card-content">
         <header>
@@ -110,50 +101,44 @@ const displayWeatherInfo = () => {
   </div>
   `);
 
-  $('.section-results').append(row);
+  $(".section-results").append(row);
 }
 
-// const displayWeatherForecast = () => {
+const displayWeatherForecast = (state) => {
 
-//   .then(function() {
-//       const row = $("<div>");
-//       row.addClass("row");
+  const row = $("<div>");
+  row.addClass("row");
 
-//       for (let index = 0; index < state.forecast.length; index++) {
+  for (let i = 0; i < state.forecast.length; i++) {
 
-//         const card = $("<div>");
-//         card.addClass("col s12 m2");
+    const card = $("<div>");
+    card.addClass("col s12 m4 l2");
 
-//         card.html(
-//           `
-//         <div class="card-panel blue">
-//           <span>Lorem ipsum dolor sit
-//           </span>
-//         </div>
-//         `
-//         );
+    card.html(
+      `
+        <div class="card-panel blue">
+          <div>${new Date(state.forecast[i].time)}</div>
+          <div><img src="" alt=""></div>
+          <div>Temp: ${state.forecast[i].temperatureHigh}</div>
+          <div>Humidity: ${state.forecast[i].humidity}</div>
+        </div>
+        `
+    );
 
-//         row.append(card);
-
-//         $(".section-results").append(row);
-//       }
-//     })
-//   })
-// }
+    row.append(card);
+  }
+  $(".section-results").append(row);
+}
 
 const handleSearch = (event) => {
   
   event.preventDefault();
 
-  const city = $("#autocomplete-input").val();
+  let city = $("#autocomplete-input").val();
   
-  state.city = city.slice(0, 1).toUpperCase() + city.slice(1);
+  city = city.slice(0, 1).toUpperCase() + city.slice(1);
 
-  fetchState();
-
-  // displayWeatherInfo();
-
-  // displayWeatherForecast();
+  fetchInfo(city);
   
 }
 
