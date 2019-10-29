@@ -2,6 +2,7 @@
 const fetchInfo = (city) => {
   const state = {};
   state.city = city;
+  
   // Get latitude and longitude using GeonamesAPI
   const geoURL = "http://api.geonames.org/searchJSON?q=";
   const geoApiKey = "stamay";
@@ -28,9 +29,9 @@ const fetchInfo = (city) => {
       url: weatherEndPoint,
       method: "GET"
     }).then(function (response) {
-
+      console.log(response);
       const forecast = response.daily.data;
-
+      state.date = new Date(forecast[0].time * 1000).toDateString();
       state.icon = forecast[0].icon;
       state.temperature = forecast[0].temperatureHigh;
       state.humidity = forecast[0].humidity;
@@ -61,13 +62,40 @@ const fetchInfo = (city) => {
   return true;
 }
 
+const displaySearch = () => {
+  const div = $("<div>");
+  div.addClass("col s12 m12 l4");
+
+  div.html(
+    `
+      <h3>Search Destinations</h3>
+      <div class="input-field">
+        <div class="col offset-s1 s8">
+          <input type="text" name="" id="input" class="white grey-text"
+            placeholder="Aruba, Cancun, Cuba...">
+        </div>
+        <div class="col s2">
+          <button type="submit" id="search" class="btn btn-large blue">Search</button>
+        </div>
+      </div>
+    `
+  );
+
+  return div;
+}
+
 const displayWeatherInfo = (state) => {
-  console.log("2nd");
   const row = $("<div>");
   row.addClass("row");
-  row.html(
+
+  const search = displaySearch();
+  row.append(search);
+
+  const info = $("<div>");
+  info.addClass("col s12 m12 l8");
+
+  info.html(
   `
-  <div class="col s12 m12 l8">
     <div class="card">
     <div class="card-image">
       <img src=${state.images[0].webformatURL}>
@@ -75,7 +103,7 @@ const displayWeatherInfo = (state) => {
       <div class="card-content">
         <header>
           <div class="card-title">
-            ${state.city} ${state.date}
+            ${state.city}, ${state.date}
           </div>
         </header>
         <div class="card horizontal weather-info">
@@ -98,10 +126,23 @@ const displayWeatherInfo = (state) => {
         </div>
       </div>
     </div>
-  </div>
   `);
 
+  row.append(info);
+
   $(".section-results").append(row);
+
+  $('#search').on('click', (event) => {
+    event.preventDefault();
+
+    let city = $("#input").val();
+
+    city = city.slice(0, 1).toUpperCase() + city.slice(1);
+
+    $(".section-results").empty();
+
+    fetchInfo(city);
+  });
 }
 
 const displayWeatherForecast = (state) => {
@@ -112,13 +153,13 @@ const displayWeatherForecast = (state) => {
   for (let i = 0; i < state.forecast.length; i++) {
 
     const card = $("<div>");
-    card.addClass("col s12 m4 l2");
+    card.addClass("col s4 m4 l2");
 
     card.html(
       `
         <div class="card-panel blue">
-          <div>${new Date(state.forecast[i].time)}</div>
-          <div><img src="" alt=""></div>
+          <div>${new Date(state.forecast[i].time * 1000).toDateString()}</div>
+          <div><img src="../img/${state.forecast[i].icon}.png" alt="Weather Icon ${state.forecast[i].icon}" class="weather-icon"></div>
           <div>Temp: ${state.forecast[i].temperatureHigh}</div>
           <div>Humidity: ${state.forecast[i].humidity}</div>
         </div>
@@ -135,8 +176,14 @@ const handleSearch = (event) => {
   event.preventDefault();
 
   let city = $("#autocomplete-input").val();
-  
+
   city = city.slice(0, 1).toUpperCase() + city.slice(1);
+
+  $(".slider").hide();
+  $(".section-search").hide();
+  $(".section-icons").hide();
+
+  $(".section-results").empty();
 
   fetchInfo(city);
   
