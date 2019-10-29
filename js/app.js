@@ -4,7 +4,7 @@ const fetchInfo = (city) => {
   state.city = city;
   
   // Get latitude and longitude using GeonamesAPI
-  const geoURL = "http://api.geonames.org/searchJSON?q=";
+  const geoURL = "https://cors-anywhere.herokuapp.com/http://api.geonames.org/searchJSON?q=";
   const geoApiKey = "stamay";
 
   const locationEndPoint = geoURL + city + "&username=" + geoApiKey;
