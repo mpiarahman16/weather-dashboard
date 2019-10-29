@@ -1,6 +1,6 @@
+const state = {};
 
 const fetchInfo = (city) => {
-  const state = {};
   state.city = city;
   
   // Get latitude and longitude using GeonamesAPI
@@ -52,7 +52,7 @@ const fetchInfo = (city) => {
         state.images = response.hits.slice(0, 3);
       }).then(function () {
         displayWeatherInfo(state);
-        displayWeatherForecast(state);
+        // displayWeatherForecast(state);
       })
 
     });
@@ -85,14 +85,25 @@ const displaySearch = () => {
 }
 
 const displayWeatherInfo = (state) => {
+  // Create the top level row
   const row = $("<div>");
   row.addClass("row");
-
+  
+  // Display Search within top level row
   const search = displaySearch();
   row.append(search);
 
+  // Create a wrapper div for sub-level rows
+  const wrapper = $("<div>");
+  wrapper.addClass("col s12 m12 l8");
+
+  // Top row that displays the main info
+  const rowTop = $("<div>");
+  rowTop.addClass("row");
+  wrapper.append(rowTop);
+
   const info = $("<div>");
-  info.addClass("col s12 m12 l8");
+  info.addClass("col s12");
 
   info.html(
   `
@@ -128,8 +139,16 @@ const displayWeatherInfo = (state) => {
     </div>
   `);
 
-  row.append(info);
+  // Append info section to wrapper
+  rowTop.append(info);
+  wrapper.append(rowTop);
 
+  // Bottom row that displays the forecast
+  const rowBottom = displayWeatherForecast(state);
+  wrapper.append(rowBottom);
+
+  // Add wrapper to the top level row
+  row.append(wrapper); 
   $(".section-results").append(row);
 
   $('#search').on('click', (event) => {
@@ -168,7 +187,8 @@ const displayWeatherForecast = (state) => {
 
     row.append(card);
   }
-  $(".section-results").append(row);
+  
+  return row;
 }
 
 const handleSearch = (event) => {
