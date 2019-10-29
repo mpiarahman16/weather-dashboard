@@ -109,7 +109,7 @@ const displayWeatherInfo = (state) => {
         <div class="card horizontal weather-info">
           <div class="row valign-wrapper">
             <div class="card-image col s3">
-              <img src="../img/${state.icon}.png" class="weather-icon">
+              <img src="./img/${state.icon}.png" class="weather-icon">
             </div>
             <div class="col s3 center-align">
               <span class="temp">${state.temperature}</span>
@@ -159,7 +159,7 @@ const displayWeatherForecast = (state) => {
       `
         <div class="card-panel blue">
           <div>${new Date(state.forecast[i].time * 1000).toDateString()}</div>
-          <div><img src="../img/${state.forecast[i].icon}.png" alt="Weather Icon ${state.forecast[i].icon}" class="weather-icon"></div>
+          <div><img src="./img/${state.forecast[i].icon}.png" alt="Weather Icon ${state.forecast[i].icon}" class="weather-icon"></div>
           <div>Temp: ${state.forecast[i].temperatureHigh}</div>
           <div>Humidity: ${state.forecast[i].humidity}</div>
         </div>
