@@ -9,6 +9,7 @@ Weather dashboard application with search functionality to find current weather 
 1. [Demo](#demo)
 1. [User Specifications](#user-spfications)
 1. [Extra Futures/Spefications](#extra-futures/specifications)
+1. [End Result](#end-result)
 1. [Getting Started](#getting-started) 
 1. [Tech Stack](#tech-stack)
 1. [Licence](#licence)
@@ -58,13 +59,13 @@ so that I can plan a trip accordingly
 
 ## User Specifications
 
-[] Fully functional, deployed application.
+- [x] Fully functional, deployed application.
 
-[] GitHub repository with a unique name and a README describing the project.
+- [x] GitHub repository with a unique name and a README describing the project.
 
-[] User can search for weather reports by city using the openweathermap API.
+- [x] User can search for weather reports by city using the openweathermap API.
 
-[] After searching for a city, the following information is displayed:
+- [x] After searching for a city, the following information is displayed:
 
   *  Current temperature
   *  Current humidity
@@ -72,17 +73,38 @@ so that I can plan a trip accordingly
   *  Uv index
   *  5 day forecast
 
-[] Application uses icons to represent weather conditions.
+- [x] Application uses icons to represent weather conditions.
 
-[] Application stores previously searched for cities in localstorage and displays them to the user.
+- [x] Application stores previously searched for cities in localstorage and displays them to the user.
 
-[] Application loads last searched city forecast on page load.
+- [x] Application loads last searched city forecast on page load.
 
 ## Extra Futures/Spefications
 
-[] Use the [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) to add the user's current location to the initial landing page.
+- [x] Use the [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) to add the user's current location to the initial landing page.
 
-[] Add the application to your portfolio.
+- [x] Use DArkSky API to get daily forecast
+
+- [x] Use Materialize CSS for UI
+
+## End Result
+
+![end result](./img/demo.gif)
+
+## Getting Started
+
+Go to https://saltamay.github.io/weather-dashboard/ and start using 😊
+
+
+## Tech Stack
+
+1. Fron-end: Materialize CSS
+2. jQuery
+3. Deployed on GitHub Pages
+
+## Licence
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
 
 
 
