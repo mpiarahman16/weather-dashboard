@@ -2,6 +2,10 @@ html {
   font-size: 16px;
 }
 
+.brand {
+  font-size: 2rem;
+}
+
 .caption .btn {
   margin-top: 2rem;
 }

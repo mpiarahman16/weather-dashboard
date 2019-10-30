@@ -1,6 +1,6 @@
 const state = {};
 
-const fetchInfo = (city) => {
+const fetchInfo = (city, isLanding = false) => {
   state.city = city;
   
   // Get latitude and longitude using GeonamesAPI
@@ -51,10 +51,14 @@ const fetchInfo = (city) => {
       }).then(function (response) {
         state.images = response.hits.slice(0, 3);
       }).then(function () {
-        displayWeatherInfo(state);
-        // displayWeatherForecast(state);
+        // Display recent serches if it is landing page
+        if (isLanding) {
+          console.log("Hi!");
+          displayRecentSearches();
+        } else {
+          displayWeatherInfo(state);
+        }
       })
-
     });
 
   });
@@ -85,7 +89,7 @@ const displaySearch = () => {
 
   const historyDiv = $("<div>");
   historyDiv.addClass("col s12");
-  
+
   const list = $("<ul>");
   list.addClass("collection");
 
@@ -105,7 +109,7 @@ const displaySearch = () => {
   return div;
 };
 
-const displayWeatherInfo = (state) => {
+const displayWeatherInfo = () => {
   // Create the top level row
   const row = $("<div>");
   row.addClass("row");
@@ -187,7 +191,7 @@ const displayWeatherInfo = (state) => {
   });
 };
 
-const displayWeatherForecast = (state) => {
+const displayWeatherForecast = () => {
 
   const row = $("<div>");
   row.addClass("row");
@@ -215,6 +219,45 @@ const displayWeatherForecast = (state) => {
 };
 
 const displayRecentSearches = () => {
+  const info = $("<div>");
+  info.addClass("col s12");
+
+  info.html(
+    `
+    <div class="card">
+      <div class="card-image">
+        <img src=${state.images[0].webformatURL}>
+        </div>
+        <div class="card-content">
+          <header>
+            <div class="card-title">
+              ${state.city}, ${state.date}
+            </div>
+          </header>
+          <div class="card horizontal weather-info">
+            <div class="row valign-wrapper">
+              <div class="card-image col s3">
+                <img src="./img/${state.icon}.png" class="weather-icon">
+              </div>
+              <div class="col s3 center-align">
+                <span class="temp">${state.temperature}</span>
+              </div>
+            <div class="card-stacked">
+              <div class="card-content">
+              <ul>
+                <li>Humidity: ${state.humidity}</li>
+                <li>Wind Speed: ${state.windSpeed}</li>
+                <li>UV Index: <span class="chip red">${state.uvIndex}</span></li>
+              </ul> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+
+  $(".search-history .row").append(info);
+  // console.log($(".section-history .container .row"));
 };
 
 const saveToLocalStorage = (city) => {
@@ -282,12 +325,14 @@ $(document).ready(function () {
 
   // Get search history from local storage
   const savedCities = JSON.parse(localStorage.getItem('searchHistory'));
+  console.log(savedCities);
   if(savedCities) {
+    fetchInfo(savedCities[0], true);
     state.searcHistory = savedCities;
   } else {
     state.searcHistory = [];
   }
-  console.log(state);
+  // console.log(state);
 
   $('.search').on('click', handleSearch);
 
