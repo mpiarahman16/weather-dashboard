@@ -60,7 +60,7 @@ const fetchInfo = (city) => {
   });
 
   return true;
-}
+};
 
 const displaySearch = () => {
   const div = $("<div>");
@@ -70,7 +70,7 @@ const displaySearch = () => {
     `
       <h3>Search Destinations</h3>
       <div class="input-field">
-        <div class="col offset-s1 s8">
+        <div class="col s8">
           <input type="text" name="" id="input" class="white grey-text"
             placeholder="Aruba, Cancun, Cuba...">
         </div>
@@ -82,7 +82,7 @@ const displaySearch = () => {
   );
 
   return div;
-}
+};
 
 const displayWeatherInfo = (state) => {
   // Create the top level row
@@ -158,11 +158,13 @@ const displayWeatherInfo = (state) => {
 
     city = city.slice(0, 1).toUpperCase() + city.slice(1);
 
+    saveToLocalStorage(city);
+
     $(".section-results").empty();
 
     fetchInfo(city);
   });
-}
+};
 
 const displayWeatherForecast = (state) => {
 
@@ -189,6 +191,27 @@ const displayWeatherForecast = (state) => {
   }
   
   return row;
+};
+
+const displayRecentSearches = () => {
+};
+
+const saveToLocalStorage = (city) => {
+
+  state.searcHistory = JSON.parse(localStorage.getItem('searchHistory'));
+  if(state.searcHistory) {
+    if (state.searcHistory.length < 6) {
+      state.searcHistory.unshift(city);
+      localStorage.setItem('searchHistory', JSON.stringify(state.searcHistory));
+    } else {
+      state.searcHistory.unshift(city);
+      state.searcHistory.pop();
+      localStorage.setItem('searchHistory', JSON.stringify(state.searcHistory));
+    }
+  } else {
+    state.searcHistory.unshift(city);
+    localStorage.setItem('searchHistory', JSON.stringify(state.searcHistory));
+  }
 }
 
 const handleSearch = (event) => {
@@ -198,6 +221,8 @@ const handleSearch = (event) => {
   let city = $("#autocomplete-input").val();
 
   city = city.slice(0, 1).toUpperCase() + city.slice(1);
+
+  saveToLocalStorage(city);
 
   $(".slider").hide();
   $(".section-search").hide();
@@ -233,6 +258,15 @@ $(document).ready(function () {
       "The Bahamas": null
     }
   });
+
+  // Get search history from local storage
+  const savedCities = JSON.parse(localStorage.getItem('searchHistory'));
+  if(savedCities) {
+    state.searcHistory = savedCities;
+  } else {
+    state.searcHistory = [];
+  }
+  console.log(state);
 
   $('.search').on('click', handleSearch);
 
