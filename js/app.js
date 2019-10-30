@@ -29,7 +29,6 @@ const fetchInfo = (city, isLanding = false) => {
       url: weatherEndPoint,
       method: "GET"
     }).then(function (response) {
-      console.log(response);
       const forecast = response.daily.data;
       state.date = new Date(forecast[0].time * 1000).toDateString();
       state.icon = forecast[0].icon;
@@ -53,7 +52,6 @@ const fetchInfo = (city, isLanding = false) => {
       }).then(function () {
         // Display recent serches if it is landing page
         if (isLanding) {
-          console.log("Hi!");
           displayRecentSearches();
         } else {
           displayWeatherInfo(state);
@@ -204,10 +202,10 @@ const displayWeatherForecast = () => {
     card.html(
       `
         <div class="card-panel blue">
-          <div>${new Date(state.forecast[i].time * 1000).toDateString()}</div>
+          <div class="white-text">${new Date(state.forecast[i].time * 1000).toDateString()}</div>
           <div><img src="./img/${state.forecast[i].icon}.png" alt="Weather Icon ${state.forecast[i].icon}" class="weather-icon"></div>
-          <div>Temp: ${state.forecast[i].temperatureHigh}</div>
-          <div>Humidity: ${state.forecast[i].humidity}</div>
+          <div class="white-text">Temp: ${state.forecast[i].temperatureHigh}</div>
+          <div class="white-text">Humidity: ${state.forecast[i].humidity}</div>
         </div>
         `
     );
@@ -257,7 +255,6 @@ const displayRecentSearches = () => {
     `);
 
   $(".search-history .row").append(info);
-  // console.log($(".section-history .container .row"));
 };
 
 const saveToLocalStorage = (city) => {
@@ -291,6 +288,7 @@ const handleSearch = (event) => {
   $(".slider").hide();
   $(".section-search").hide();
   $(".section-icons").hide();
+  $(".search-history").hide();
 
   $(".section-results").empty();
 
@@ -319,20 +317,24 @@ $(document).ready(function () {
       "California": null,
       "Jamaica": null,
       "Europe": null,
-      "The Bahamas": null
+      "The Bahamas": null,
+      "Toronto": null
     }
   });
 
   // Get search history from local storage
   const savedCities = JSON.parse(localStorage.getItem('searchHistory'));
-  console.log(savedCities);
+
   if(savedCities) {
+    
+    // Display the last visited place on landin
     fetchInfo(savedCities[0], true);
+    $(".search-history").show();
+
     state.searcHistory = savedCities;
   } else {
     state.searcHistory = [];
   }
-  // console.log(state);
 
   $('.search').on('click', handleSearch);
 
