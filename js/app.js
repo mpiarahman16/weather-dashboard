@@ -81,6 +81,27 @@ const displaySearch = () => {
     `
   );
 
+  const searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+
+  const historyDiv = $("<div>");
+  historyDiv.addClass("col s12");
+  
+  const list = $("<ul>");
+  list.addClass("collection");
+
+  searchHistory.forEach(search => {
+    
+    const li = $("<li>");
+    li.addClass("collection-item");
+
+    li.text(search);
+
+    list.append(li);
+  })
+
+  historyDiv.append(list);
+  div.append(historyDiv);
+  
   return div;
 };
 
@@ -198,8 +219,8 @@ const displayRecentSearches = () => {
 
 const saveToLocalStorage = (city) => {
 
-  state.searcHistory = JSON.parse(localStorage.getItem('searchHistory'));
-  if(state.searcHistory) {
+  const savedCities = JSON.parse(localStorage.getItem('searchHistory'));
+  if(savedCities) {
     if (state.searcHistory.length < 6) {
       state.searcHistory.unshift(city);
       localStorage.setItem('searchHistory', JSON.stringify(state.searcHistory));
@@ -209,7 +230,7 @@ const saveToLocalStorage = (city) => {
       localStorage.setItem('searchHistory', JSON.stringify(state.searcHistory));
     }
   } else {
-    state.searcHistory.unshift(city);
+    state.searcHistory.push(city);
     localStorage.setItem('searchHistory', JSON.stringify(state.searcHistory));
   }
 }
