@@ -83,7 +83,7 @@ so that I can plan a trip accordingly
 
 - [x] Use the [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) to add the user's current location to the initial landing page.
 
-- [x] Use DArkSky API to get daily forecast
+- [x] Use [DarkSky API](https://darksky.net/dev) to get daily forecast
 
 - [x] Use Materialize CSS for UI
 
